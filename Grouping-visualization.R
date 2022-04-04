@@ -1,7 +1,7 @@
 #### Comments are based on 527 data
 #### Part1 includes overviews on data points
 #### Part2 includes arbitrary grouping on data points
-#### Part3 includes tests on in-group and between-group difference
+#### Part3 includes tests on in-group and between-group variation
 
 getwd()
 setwd('C:/Users/40355/Documents/R')
@@ -179,7 +179,25 @@ for (k in row_numbers1){
   }
 }
 
-test <- full_join(PE[, c(16,18)], test, by = c("sum" = "ID"))
-####!!!!! The loop didn't considered ID order, so there are so many NA when combined... still figuring out how that can be fixed FTW
+## sort ID so that it is compatible with the other dataframe
+row_number3 <- 1:(nrow(test))
+for (i in row_number3){
+  array <- test[i, 1]
+  arrayS <- strsplit(array, " ")
+  arrayS <- sort(arrayS[[1]])
+  test[i, 1] <- paste( unlist(arrayS), collapse='')
+}
+
+test <- full_join(test, PE[17:18], by = c("ID" = "sum"))
+
+## check t.test p-value for all possible variation
+row_number4 <- 1:((nrow(test))%/%16)
+for (i in row_number4){
+  mu <- test[i*16,3]
+  t.test(test[i:(i+16),2], mu=mu)
+  arrayR[i] <- t.test(test[1:16,2], mu=mu)$p.value
+} 
+## maximum is less that 0.05
+
 
 
