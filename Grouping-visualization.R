@@ -137,7 +137,7 @@ plot(density(part2$area))
 ChemicalSH <- c("A","C","D","G","I","M","O","T")
 modelist<- as.character()
 for(i in 1:8){
-  modelist <- c(modelist,combn(ChemicalSH,m=i,FUN=paste0,collapse = ""))
+  modelist <- c(modelist,combn(ChemicalSH,m=i,FUN=paste0,collapse = " "))
 }
 
 ## Input shorthand for chemical combination
