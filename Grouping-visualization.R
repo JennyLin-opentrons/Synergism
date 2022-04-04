@@ -195,7 +195,7 @@ row_number4 <- 1:((nrow(test))%/%16)
 for (i in row_number4){
   mu <- test[i*16,3]
   t.test(test[i:(i+16),2], mu=mu)
-  arrayR[i] <- t.test(test[1:16,2], mu=mu)$p.value
+  arrayR[i] <- t.test(test[i:i+16,2], mu=mu)$p.value
 } 
 ## maximum is less that 0.05
 
