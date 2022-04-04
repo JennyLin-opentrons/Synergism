@@ -200,4 +200,5 @@ for (i in row_number4){
 ## maximum is less that 0.05
 
 
+write.csv(test,"C:/Users/40355/Documents/R\\synergism.csv", row.names = FALSE)
 
