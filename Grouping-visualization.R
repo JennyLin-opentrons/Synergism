@@ -1,4 +1,5 @@
 #### Comments are based on 527 data
+#### I have already saved pic from Part1 and Part2, so didn't carefully check the code, but I guess Part3 may look interesting.
 #### Part1 includes overviews on data points
 #### Part2 includes arbitrary grouping on data points
 #### Part3 includes tests on in-group and between-group variation
@@ -11,6 +12,7 @@ df <- read.csv("data/data-527.csv", header=TRUE)
 
 ### Part1 overviews 
 df$area <- rowMeans(df[,2:5],na.rm=TRUE)
+## Can directly jump into Part3 here
 ## prelimary check of the data
 plot(density(df$area))
 ## Two local maximum is observed
@@ -51,7 +53,6 @@ ggp_all
 ### Part2 Grouping
 df$group <- NA
 row_numbers <- 1:nrow(area)
-x <- 0 
 for (x in row_numbers){
   
   group <- df$area[x]
@@ -59,7 +60,7 @@ for (x in row_numbers){
     group_type <- "lethal"
   }
   else {
-    if (group>mean(residul$area)){
+    if (group>mean(residual$area)){
       group_type <- "positive"
     }
     else {
@@ -99,7 +100,7 @@ ggplot(groupA, aes(well, area, colour=Complexity)) +
 
 groupS <- subset(df, Complexity >= 4)
 groupS$Oxytetracycline <- as.factor(groupS$Oxytetracycline)
-plot1 <- ggplot(groupS, aes(well, area, colour=Oxytetracycline)) +
+ggplot(groupS, aes(well, area, colour=Oxytetracycline)) +
   geom_point(size = 5) +
   labs(title="with Amoxicillin in high complexity",
        x = "well",
@@ -107,14 +108,12 @@ plot1 <- ggplot(groupS, aes(well, area, colour=Oxytetracycline)) +
   theme(axis.text.x=element_blank()) 
 
 groupSS <- subset(groupS, Amoxicillin == 0)
-plot2 <- ggplot(groupSS, aes(well, area, colour=Oxytetracycline)) +
+ggplot(groupSS, aes(well, area, colour=Oxytetracycline)) +
   geom_point(size = 5) +
   labs(title="without Amoxicillin in high complexity",
        x = "well",
        y = "area under curve") +
   theme(axis.text.x=element_blank()) 
-
-grid.arrange(plot1, plot2, ncol=2)
 
 ggplot(area, aes(well, area, colour=group)) +
   geom_point(size = 3) +
@@ -141,8 +140,6 @@ for(i in 1:8){
 }
 
 ## Input shorthand for chemical combination
-x <- 0 
-chemicals$sum <- NA
 row_numbers <- 1:nrow(df)
 for (x in row_numbers){
   Present_type <- ""
@@ -192,13 +189,14 @@ test <- full_join(test, PE[17:18], by = c("ID" = "sum"))
 
 ## check t.test p-value for all possible variation
 row_number4 <- 1:((nrow(test))%/%16)
+arrayR <- numeric()
 for (i in row_number4){
   mu <- test[i*16,3]
-  t.test(test[i:(i+16),2], mu=mu)
-  arrayR[i] <- t.test(test[i:i+16,2], mu=mu)$p.value
+  arrayR[i] <- t.test(test[i:(i+16),2], mu=mu)$p.value
 } 
-## maximum is less that 0.05
+max(arrayR)
+## maximum p-value is less that 0.05, the result is significant
 
 
-write.csv(test,"C:/Users/40355/Documents/R\\synergism.csv", row.names = FALSE)
+write.csv(test,"C:/Users/40355/Documents/R\\synergism-527.csv", row.names = FALSE)
 
