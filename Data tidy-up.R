@@ -60,7 +60,6 @@ df$area1 <- df$area1-mean(residual$area)
 df$area2 <- df$area2-mean(residual$area)
 df$area3 <- df$area3-mean(residual$area)
 df$area4 <- df$area4-mean(residual$area)
-df$area <- rowMeans(df[,2:5],na.rm=TRUE)
 
 ### Export the data for further analysis
 write.csv(df,"C:/Users/40355/Documents/R\\data.csv", row.names = FALSE)
