@@ -80,4 +80,4 @@ for (i in row_number4){
   }
 } 
 
-write.csv(df,"C:/Users/40355/Documents/R\\summary-527.csv", row.names = FALSE)
+write.csv(Summary,"C:/Users/40355/Documents/R\\summary-527.csv", row.names = FALSE)
